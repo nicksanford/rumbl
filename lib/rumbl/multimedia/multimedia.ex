@@ -7,7 +7,12 @@ defmodule Rumbl.Multimedia do
   alias Rumbl.Repo
 
   alias Rumbl.Multimedia.Video
+  alias Rumbl.Multimedia.Category
   alias Rumbl.Accounts
+
+  def seed_category(name) do
+    Repo.get_by(Category, name: name) || Repo.insert!(%Category{name: name})
+  end
 
   @doc """
   Returns the list of videos.
@@ -22,6 +27,12 @@ defmodule Rumbl.Multimedia do
     Video
     |> Repo.all()
     |> preload_user()
+  end
+
+  def list_alphabetical_categories do
+    Category
+    |> Category.alphabetical()
+    |> Repo.all()
   end
 
   def list_user_videos(%Accounts.User{} = user) do
